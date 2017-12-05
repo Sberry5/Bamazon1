@@ -1,6 +1,6 @@
-#**Bamazon**#
+# **Bamazon**
  
-##**Summary**##
+## **Summary**
  
 An interactive node app using MySQL, Node.JS, and various npm packages to all users to purchase items from the MySQL database. Users can purchase items and are informed if the purchase quantity they select is available.
  
@@ -8,7 +8,7 @@ To run the app a MySQL database is required with the followingitemitem
  
 ***
  
-###**Customer Instructions**###
+### **Customer Instructions**
  
 Run the bamazonCustomer.js file in node to begin. A list of available products will be shown with the item ID, product name, department, and price. Determine what product you would like to purchase.
  
@@ -28,12 +28,12 @@ If the quantity you have entered is not available you will be informed that the 
 
 ***
 
-##**Requirements**##
+## **Requirements**
 
-###[Node.JS](https://nodejs.org/en/download/)###
+### [Node.JS](https://nodejs.org/en/download/)
 
-###[NPM Packages](https://www.npmjs.com)###
+### [NPM Packages](https://www.npmjs.com)
 	1. [Inquirer](https://www.npmjs.com/package/inquirer)
 	1. [mysql](https://www.npmjs.com/package/mysql)
 
-###[MySQL](https://www.mysql.com/downloads/)###
+### [MySQL](https://www.mysql.com/downloads/)
