@@ -85,11 +85,9 @@ function buyItem() {
           connection.query(updateItemStr, function(err, data) {
             if (err) throw err;
             console.log("Order has been placed.")
-          })
-          // {
-          //   // else {
-          //    // console.log("Stock quantity is unavailable. Please change your order.");
-          //   }
+           else {
+             console.log("Stock quantity is unavailable. Please change your order.");
+            }
           })
         })
       }
