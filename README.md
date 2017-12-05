@@ -33,7 +33,7 @@ If the quantity you have entered is not available you will be informed that the 
 ### [Node.JS](https://nodejs.org/en/download/)
 
 ### [NPM Packages](https://www.npmjs.com)
-	1. [Inquirer](https://www.npmjs.com/package/inquirer)
-	1. [mysql](https://www.npmjs.com/package/mysql)
+	[Inquirer](https://www.npmjs.com/package/inquirer) 1
+	[mysql](https://www.npmjs.com/package/mysql) 2
 
 ### [MySQL](https://www.mysql.com/downloads/)
