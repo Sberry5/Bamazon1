@@ -79,15 +79,15 @@ function buyItem() {
         if(quantity <= itemData.stock_quantity){
           console.log("Item purchase is complete.");
 
-          var updateItemStr = "UPDATE products SET stock_quantity = " +  (itemData.stock_quantity - quantity) + ' WHERE item_id = ' + item;
+          var updateItemStr = "UPDATE products SET stock_quantity = ?" +  (itemData.stock_quantity - input.quantity) + ' WHERE item_id = ' + input.item_id;
             }
           //Update inventory in database
-          connection.query(updateItemStr, function(err, data) {
-            if (err) throw err;
-            console.log("Order has been placed.")
-           else {
-             console.log("Stock quantity is unavailable. Please change your order.");
-            }
+          // connection.query(updateItemStr, function(err, data) {
+          //   if (err) throw err;
+
+          //  else {
+          //    console.log("Stock quantity is unavailable. Please change your order.");
+          //   }
           })
         })
       }
