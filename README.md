@@ -2,9 +2,7 @@
  
 ## **Summary**
  
-An interactive node app using MySQL, Node.JS, and various npm packages to all users to purchase items from the MySQL database. Users can purchase items and are informed if the purchase quantity they select is available.
- 
-To run the app a MySQL database is required with the followingitemitem
+An interactive node app using MySQL, Node.JS, and various npm packages to allow users to purchase items from the MySQL database. Users can purchase items and are informed if the purchase quantity they select is available.
  
 ***
  
@@ -34,6 +32,7 @@ If the quantity you have entered is not available you will be informed that the 
 
 ##### [Node.JS](https://nodejs.org/en/download/)
 ##### [MySQL](https://www.mysql.com/downloads/)
+*Database with a table including an item_id, product_name, department_price, price, and stock_quantity with items populated*
 ##### [NPM Packages](https://www.npmjs.com)
 * [Inquirer](https://www.npmjs.com/package/inquirer)
 * [mysql](https://www.npmjs.com/package/mysql)
