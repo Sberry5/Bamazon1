@@ -24,6 +24,8 @@ A prompt will ask for the number of units you would like to purchase of the sele
  
 If the quantity is available you will be informed that your purchase is complete.
 
+![Customer](Images/purchase.png)
+
 If the quantity you have entered is not available you will be informed that the quantity selected is unavailable.
 
 ***
