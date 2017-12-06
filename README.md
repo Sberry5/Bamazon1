@@ -31,7 +31,7 @@ If the quantity you have entered is not available you will be informed that the 
 ## **Requirements**
 
 ##### [Node.JS](https://nodejs.org/en/download/)
-##### [MySQL](https://www.mysql.com/downloads/) - Database with a table including an item_id, product_name, department_price, price, and stock_quantity with items populated
+##### [MySQL](https://www.mysql.com/downloads/) - Database with a table including an item_id, product_name, department_name, price, and stock_quantity with items populated
 ##### [NPM Packages](https://www.npmjs.com)
 * [Inquirer](https://www.npmjs.com/package/inquirer)
 * [mysql](https://www.npmjs.com/package/mysql)
