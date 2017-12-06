@@ -30,10 +30,10 @@ If the quantity you have entered is not available you will be informed that the 
 
 ## **Requirements**
 
-### [Node.JS](https://nodejs.org/en/download/): 
+##### [Node.JS](https://nodejs.org/en/download/)
 
-### [NPM Packages](https://www.npmjs.com)
+##### [NPM Packages](https://www.npmjs.com)
 * [Inquirer](https://www.npmjs.com/package/inquirer)
 * [mysql](https://www.npmjs.com/package/mysql)
 
-### [MySQL](https://www.mysql.com/downloads/)
+##### [MySQL](https://www.mysql.com/downloads/)
