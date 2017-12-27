@@ -72,12 +72,12 @@ function buyItem() {
         }
       ]
     )
-};
+}
 
 function checkQuantity(input) {
 
   var item = input.item_id;
-  var quantity = input.quantity
+  var quantity = input.quantity;
   var queryStr = "SELECT * FROM products WHERE ?";
   var updatedQuantity =
 
