@@ -62,6 +62,7 @@ function buyItem() {
         validate: function(value) {
           if (isNaN(value) === false) {
             return true;
+            checkQuantity();
             // updateDB();
           }
           return false;
@@ -73,9 +74,7 @@ function buyItem() {
     )
 };
 
-
 function checkQuantity(input) {
-
 
   var item = input.item_id;
   var quantity = input.quantity
@@ -94,6 +93,7 @@ function checkQuantity(input) {
         // If requested quantity is less than quantity in DB show items agaim
         if (itemData.stock_quantity < quantity) {
           console.log("The number of units you have requested is unavailable. Please select a new item or quantity");
+          upDateDB();
           showItems();
         }
         // If requested quantity is less than or equal to the DB quantity
@@ -103,15 +103,17 @@ function checkQuantity(input) {
 
       };
     })
-}
 
-// var updateItemStr = "UPDATE products SET stock_quantity = ?" + (itemData.stock_quantity - input.quantity) + ' WHERE item_id = ' + input.item_id;
-// console.log(updateItemStr);
+      function upDateDB(){
+      var updateItemStr = "UPDATE products SET stock_quantity = ?" + (itemData.stock_quantity - input.quantity) + ' WHERE item_id = ' + input.item_id;
+      console.log(updateItemStr);
 
-//  Update inventory in database
-//connection.query(updateItemStr, function(err, data) {
-  //   if (err) throw err;
-
-  //  else {
-  //    console.log("Stock quantity is unavailable. Please change your order.");
-  //   }
+      // Update inventory in database
+      connection.query(updateItemStr, function(err, data) {
+          if (err) throw err;
+         else {
+           console.log("Stock quantity is unavailable. Please change your order.");
+          }
+      })
+    }
+  }
