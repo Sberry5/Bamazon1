@@ -32,6 +32,7 @@ function showItems() {
     console.log(err);
     buyItem()
       .then(function(input) {
+        console.log("Here is the input:");
         console.log(input);
       })
 
@@ -71,10 +72,7 @@ function buyItem() {
           }
         }
       ]
-    )
-}
-
-function checkQuantity(input) {
+    ).then(function checkQuantity(input) {
 
   var item = input.item_id;
   var quantity = input.quantity;
@@ -116,4 +114,5 @@ function checkQuantity(input) {
           }
       })
     }
-  }
+  });
+}
