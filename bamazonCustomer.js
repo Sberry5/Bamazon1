@@ -78,11 +78,11 @@ function buyItemPrompt() {
   }
 
 function checkQuantity(promptObject) {
-
+  console.log("values in check Quantity function");
+  console.log(promptObject);
   var item = promptObject.item_id;
-  var quantity = promptObject.quantity;
+  var buyerQuantity = promptObject.stock_quantity;
   var queryStr = "SELECT * FROM products WHERE ?";
-  var updatedQuantity =
 
 
     connection.query(queryStr, {
@@ -94,23 +94,29 @@ function checkQuantity(promptObject) {
 
         var itemData = data[0];
 
+
+        console.log(itemData);
+
+        console.log("item quantity from db:", itemData.quantity);
+        console.log("user input quantity:", buyerQuantity);
+
         // If requested quantity is less than quantity in DB show items agaim
-        if (itemData.stock_quantity < quantity) {
+        if (itemData.stock_quantity < buyerQuantity) {
           console.log("The number of units you have requested is unavailable. Please select a new item or quantity");
           showItems();
         }
         // If requested quantity is less than or equal to the DB quantity
         else {
           console.log("Item purchase is complete.");
-         // upDateDB();
+          upDateDB(item, itemData.quantity - buyerQuantity);
         };
 
       };
     })
   }
 
-      function upDateDB(){
-      var updateItemStr = "UPDATE products SET stock_quantity = ?" + (itemData.stock_quantity - input.quantity) + ' WHERE item_id = ' + input.item_id;
+      function upDateDB(id, updatedQuantity){
+      var updateItemStr = "UPDATE products SET stock_quantity = " + updatedQuantity + ' WHERE item_id = ' + id;
       console.log(updateItemStr);
 
       // Update inventory in database
