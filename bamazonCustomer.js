@@ -17,7 +17,7 @@ var connection = mysql.createConnection({
 
 connection.connect(function(err) {
   if (err) throw err;
-  console.log("connected as id " + connection.threadId + "\n");
+  //console.log("connected as id " + connection.threadId + "\n");
   showItems();
 });
 
@@ -34,8 +34,7 @@ function showItems() {
     console.log(err);
     buyItemPrompt()
       .then(function(input) {
-        console.log("Here is the input:");
-        console.log(input);
+        //console.log(input);
         checkQuantity(input);
       });
   });
@@ -94,11 +93,13 @@ function checkQuantity(promptObject) {
 
         var itemData = data[0];
 
-
+        console.log("Here is item data:");
         console.log(itemData);
 
-        console.log("item quantity from db:", itemData.quantity);
-        console.log("user input quantity:", buyerQuantity);
+        console.log("item quantity from db:");
+        console.log(itemData.quantity);
+        console.log("user input quantity:") 
+        console.log(buyerQuantity);
 
         // If requested quantity is less than quantity in DB show items agaim
         if (itemData.stock_quantity < buyerQuantity) {
