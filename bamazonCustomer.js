@@ -21,6 +21,8 @@ connection.connect(function(err) {
   showItems();
 });
 
+var userInput = null;
+
 // Starting function to query the database for all available items
 function showItems() {
   var query = "SELECT * FROM products";
@@ -30,17 +32,17 @@ function showItems() {
       console.log("ID: " + res[i].item_id + " || Product: " + res[i].product_name + " || Department: " + res[i].department_name + " || Price (USD): " + res[i].price);
     }
     console.log(err);
-    buyItem()
+    buyItemPrompt()
       .then(function(input) {
         console.log("Here is the input:");
         console.log(input);
-      })
-
+        checkQuantity(input);
+      });
   });
 };
 
 // Function to show items and begin prompts
-function buyItem() {
+function buyItemPrompt() {
   return inquirer
     .prompt(
       [
@@ -72,10 +74,13 @@ function buyItem() {
           }
         }
       ]
-    ).then(function checkQuantity(input) {
+    )
+  }
 
-  var item = input.item_id;
-  var quantity = input.quantity;
+function checkQuantity(promptObject) {
+
+  var item = promptObject.item_id;
+  var quantity = promptObject.quantity;
   var queryStr = "SELECT * FROM products WHERE ?";
   var updatedQuantity =
 
@@ -88,19 +93,21 @@ function buyItem() {
       } else {
 
         var itemData = data[0];
+
         // If requested quantity is less than quantity in DB show items agaim
         if (itemData.stock_quantity < quantity) {
           console.log("The number of units you have requested is unavailable. Please select a new item or quantity");
-          upDateDB();
           showItems();
         }
         // If requested quantity is less than or equal to the DB quantity
         else {
           console.log("Item purchase is complete.");
+         // upDateDB();
         };
 
       };
     })
+  }
 
       function upDateDB(){
       var updateItemStr = "UPDATE products SET stock_quantity = ?" + (itemData.stock_quantity - input.quantity) + ' WHERE item_id = ' + input.item_id;
@@ -114,5 +121,3 @@ function buyItem() {
           }
       })
     }
-  });
-}
