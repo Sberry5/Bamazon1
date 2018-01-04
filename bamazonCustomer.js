@@ -97,7 +97,7 @@ function checkQuantity(promptObject) {
         console.log(itemData);
 
         console.log("item quantity from db:");
-        console.log(itemData.quantity);
+        console.log(itemData.stock_quantity);
         console.log("user input quantity:") 
         console.log(buyerQuantity);
 
@@ -117,7 +117,9 @@ function checkQuantity(promptObject) {
   }
 
       function upDateDB(id, updatedQuantity){
-      var updateItemStr = "UPDATE products SET stock_quantity = " + updatedQuantity + ' WHERE item_id = ' + id;
+        console.log("data fed to Update");
+        console.log(updatedQuantity);
+      var updateItemStr = "UPDATE products SET stock_quantity = " + updatedQuantity.stock_quantity + ' WHERE item_id = ' + id.item_id;
       console.log(updateItemStr);
 
       // Update inventory in database
