@@ -50,7 +50,6 @@ function buyItemPrompt() {
           type: "input",
           message: "Please enter the ID of the product you would like to purchase.",
           validate: function(value) {
-            //console.log(typeof(value));
             if (isNaN(value) === false) {
               return true;
             }
@@ -64,7 +63,7 @@ function buyItemPrompt() {
         validate: function(value) {
           if (isNaN(value) === false) {
             return true;
-            checkQuantity();
+            checkQuantity(input);
             // updateDB();
           }
           return false;
@@ -96,8 +95,8 @@ function checkQuantity(promptObject) {
         console.log("Here is item data:");
         console.log(itemData);
 
-        console.log("item quantity from db:");
-        console.log(itemData.stock_quantity);
+        // console.log("item quantity from db:");
+        // console.log(itemData.stock_quantity);
         console.log("user input quantity:") 
         console.log(buyerQuantity);
 
@@ -109,7 +108,7 @@ function checkQuantity(promptObject) {
         // If requested quantity is less than or equal to the DB quantity
         else {
           console.log("Item purchase is complete.");
-          upDateDB(item, itemData.quantity - buyerQuantity);
+          upDateDB(item, itemData.stock_quantity - buyerQuantity);
         };
 
       };
