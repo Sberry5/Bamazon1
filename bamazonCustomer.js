@@ -100,7 +100,7 @@ function checkQuantity(userInput) {
         // console.log("item quantity from db:");
         // console.log(itemData.stock_quantity);
         console.log("user input quantity:") 
-        console.log(quantity);
+        console.log(buyerQuantity);
 
         // If requested quantity is less than quantity in DB show items agaim
         if (itemData.stock_quantity < buyerQuantity) {
@@ -110,7 +110,7 @@ function checkQuantity(userInput) {
         // If requested quantity is less than or equal to the DB quantity
         else {
           console.log("Item purchase is complete.");
-          upDateDB(item, parseInt(itemData.stock_quantity - buyerQuantity));
+          upDateDB(item, (updatedQuantity = (itemData.stock_quantity - buyerQuantity)));
         };
 
       };
