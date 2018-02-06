@@ -5,10 +5,10 @@ var connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
 
-  // Your username
+  // Username
   user: "root",
 
-  // Your password
+  // Password
   password: "SQL2886Fun",
   database: "bamazon",
 
@@ -49,37 +49,39 @@ function buyItemPrompt() {
           name: "item_id",
           type: "input",
           message: "Please enter the ID of the product you would like to purchase.",
-          validate: function(value) {
-            if (isNaN(value) === false) {
+          validate: function(product) {
+            if (isNaN(product) === false) {
               return true;
             }
             return false;
           }
         },
         {
-        name: "quantity",
+        name: "stock_quantity",
         type: "input",
         message: "How many units of the product would you like?",
-        validate: function(value) {
-          if (isNaN(value) === false) {
+        validate: function(quantity) {
+          if (isNaN(quantity) === false) {
             return true;
-            checkQuantity(input);
+            checkQuantity(userInput);
             // updateDB();
           }
           return false;
-        //How to validate?
-        //console.log("Please enter a number")
           }
         }
       ]
     )
   }
 
-function checkQuantity(promptObject) {
+function checkQuantity(userInput) {
   console.log("values in check Quantity function");
-  console.log(promptObject);
-  var item = promptObject.item_id;
-  var buyerQuantity = promptObject.stock_quantity;
+  console.log(userInput);
+  var item = userInput.item_id;
+  console.log("Item ID selected");
+  console.log(item);
+  var buyerQuantity = (userInput.stock_quantity);
+  console.log("Quantity selected by user");
+  console.log(buyerQuantity);
   var queryStr = "SELECT * FROM products WHERE ?";
 
 
@@ -98,7 +100,7 @@ function checkQuantity(promptObject) {
         // console.log("item quantity from db:");
         // console.log(itemData.stock_quantity);
         console.log("user input quantity:") 
-        console.log(buyerQuantity);
+        console.log(quantity);
 
         // If requested quantity is less than quantity in DB show items agaim
         if (itemData.stock_quantity < buyerQuantity) {
@@ -108,7 +110,7 @@ function checkQuantity(promptObject) {
         // If requested quantity is less than or equal to the DB quantity
         else {
           console.log("Item purchase is complete.");
-          upDateDB(item, itemData.stock_quantity - buyerQuantity);
+          upDateDB(item, parseInt(itemData.stock_quantity - buyerQuantity));
         };
 
       };
