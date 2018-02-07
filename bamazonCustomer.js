@@ -1,16 +1,16 @@
-var mysql = require("mysql");
-var inquirer = require("inquirer");
+var mysql = require('mysql');
+var inquirer = require('inquirer');
 
 var connection = mysql.createConnection({
-  host: "localhost",
+  host: 'localhost',
   port: 3306,
 
   // Username
-  user: "root",
+  user: 'root',
 
   // Password
-  password: "SQL2886Fun",
-  database: "bamazon",
+  password: 'SQL2886Fun',
+  database: 'bamazon',
 
   multipleStatements: true,
 });
@@ -25,11 +25,11 @@ var userInput = null;
 
 // Starting function to query the database for all available items
 function showItems() {
-  var query = "SELECT * FROM products";
+  var query = 'SELECT * FROM products';
   connection.query(query, function(err, res) {
     for (var i = 0; i < res.length; i++) 
     {
-      console.log("ID: " + res[i].item_id + " || Product: " + res[i].product_name + " || Department: " + res[i].department_name + " || Price (USD): " + res[i].price);
+      console.log('ID: ' + res[i].item_id + ' || Product: ' + res[i].product_name + ' || Department: ' + res[i].department_name + ' || Price (USD): ' + res[i].price);
     }
     console.log(err);
     buyItemPrompt()
@@ -46,9 +46,9 @@ function buyItemPrompt() {
     .prompt(
       [
         {
-          name: "item_id",
-          type: "input",
-          message: "Please enter the ID of the product you would like to purchase.",
+          name: 'item_id',
+          type: 'input',
+          message: 'Please enter the ID of the product you would like to purchase.',
           validate: function(product) {
             if (isNaN(product) === false) {
               return true;
@@ -57,9 +57,9 @@ function buyItemPrompt() {
           }
         },
         {
-        name: "stock_quantity",
-        type: "input",
-        message: "How many units of the product would you like?",
+        name: 'stock_quantity',
+        type: 'input',
+        message: 'How many units of the product would you like?',
         validate: function(quantity) {
           if (isNaN(quantity) === false) {
             return true;
@@ -74,60 +74,59 @@ function buyItemPrompt() {
   }
 
 function checkQuantity(userInput) {
-  console.log("values in check Quantity function");
-  console.log(userInput);
+  // console.log('values in check Quantity function');
+  // console.log(userInput);
   var item = userInput.item_id;
-  console.log("Item ID selected");
-  console.log(item);
+  // console.log('Item ID selected');
+  // console.log(item);
   var buyerQuantity = (userInput.stock_quantity);
-  console.log("Quantity selected by user");
-  console.log(buyerQuantity);
-  var queryStr = "SELECT * FROM products WHERE ?";
+  // console.log('Quantity selected by user');
+  // console.log(buyerQuantity);
+  var queryStr = 'SELECT * FROM products WHERE ?';
 
 
     connection.query(queryStr, {
       item_id: item
     }, function(err, data) {
       if (err) {
-        console.log("err")
+        console.log('err')
       } else {
 
         var itemData = data[0];
 
-        console.log("Here is item data:");
-        console.log(itemData);
-
-        // console.log("item quantity from db:");
-        // console.log(itemData.stock_quantity);
-        console.log("user input quantity:") 
-        console.log(buyerQuantity);
+        // console.log('Here is item data:');
+        // console.log(itemData);
+        // console.log('user input quantity:'); 
+        // console.log(buyerQuantity);
 
         // If requested quantity is less than quantity in DB show items agaim
         if (itemData.stock_quantity < buyerQuantity) {
-          console.log("The number of units you have requested is unavailable. Please select a new item or quantity");
+          console.log('The number of units you have requested is unavailable. Please select a new item or quantity');
           showItems();
         }
         // If requested quantity is less than or equal to the DB quantity
         else {
-          console.log("Item purchase is complete.");
+          console.log('Item purchase is complete.');
           upDateDB(item, (updatedQuantity = (itemData.stock_quantity - buyerQuantity)));
+
         };
 
       };
     })
   }
 
-      function upDateDB(id, updatedQuantity){
-        console.log("data fed to Update");
-        console.log(updatedQuantity);
-      var updateItemStr = "UPDATE products SET stock_quantity = " + updatedQuantity.stock_quantity + ' WHERE item_id = ' + id.item_id;
-      console.log(updateItemStr);
-
-      // Update inventory in database
-      connection.query(updateItemStr, function(err, data) {
-          if (err) throw err;
-         else {
-           console.log("Stock quantity is unavailable. Please change your order.");
+      function upDateDB(updatedQuantity, id){
+        // console.log('data fed to Update');
+        // console.log(id);
+        // console.log(updatedQuantity);
+        connection.query('UPDATE products SET stock_quantity = "updatedQuantity" WHERE item_id = "id"'),
+        [updatedQuantity, id.item_id],
+        function (res, err) { 
+          if (err) {
+            throw err;
           }
-      })
+          else {
+        showItems();
+        };
+      };
     }
