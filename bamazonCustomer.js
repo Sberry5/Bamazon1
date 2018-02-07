@@ -27,11 +27,12 @@ var userInput = null;
 function showItems() {
   var query = 'SELECT * FROM products';
   connection.query(query, function(err, res) {
+    console.log('\n---------------------------Products---------------------------\n');
     for (var i = 0; i < res.length; i++) 
     {
       console.log('ID: ' + res[i].item_id + ' || Product: ' + res[i].product_name + ' || Department: ' + res[i].department_name + ' || Price (USD): ' + res[i].price);
     }
-    console.log(err);
+    console.log('\n--------------------------------------------------------------\n');
     buyItemPrompt()
       .then(function(input) {
         //console.log(input);
@@ -71,7 +72,7 @@ function buyItemPrompt() {
         }
       ]
     )
-  }
+  };
 
 function checkQuantity(userInput) {
   // console.log('values in check Quantity function');
@@ -94,8 +95,8 @@ function checkQuantity(userInput) {
 
         var itemData = data[0];
 
-        // console.log('Here is item data:');
-        // console.log(itemData);
+        console.log('Here is item data:');
+        console.log(itemData);
         // console.log('user input quantity:'); 
         // console.log(buyerQuantity);
 
@@ -106,7 +107,7 @@ function checkQuantity(userInput) {
         }
         // If requested quantity is less than or equal to the DB quantity
         else {
-          console.log('Item purchase is complete.');
+          console.log('Item purchase is complete. Your total is: $' + itemData.price);
           upDateDB(item, (updatedQuantity = (itemData.stock_quantity - buyerQuantity)));
 
         };
