@@ -71,6 +71,7 @@ function buyItemPrompt() {
     )
   };
 
+// Function to check the users requested quantity against the DB
 function checkQuantity(userInput) {
   var item = userInput.item_id;
   var buyerQuantity = (userInput.stock_quantity);
@@ -85,12 +86,12 @@ function checkQuantity(userInput) {
 
         var itemData = data[0];
 
-        // If requested quantity is less than quantity in DB show items agaim
+        // If requested quantity is less than allow user to return to store or exit
         if (itemData.stock_quantity < buyerQuantity) {
           console.log('\nThe number of units you have requested is unavailable.\n');
           buyOrExit();
         }
-        // If requested quantity is less than or equal to the DB quantity
+        // If requested quantity is less than or equal to the DB quantity show the user their total and allow user to return to store or exit
         else {
           console.log('\nItem purchase is complete. Your total is: $' + itemData.price + '\n');
           upDateDB(item, (updatedQuantity = (itemData.stock_quantity - buyerQuantity)));
@@ -101,6 +102,7 @@ function checkQuantity(userInput) {
     })
   }
 
+// Function to update the DB
 function upDateDB(updatedQuantity, id){ 
   connection.query('UPDATE products SET stock_quantity = "updatedQuantity" WHERE item_id = "id"'),
   [updatedQuantity, id.item_id],
@@ -114,6 +116,7 @@ function upDateDB(updatedQuantity, id){
   };
 }
 
+// Function to prompt user to return to the store or exit
 function buyOrExit () {
   return inquirer
   .prompt(
@@ -121,7 +124,7 @@ function buyOrExit () {
       {
         name: 'choice',
         type: 'input',
-        message: 'To return to store, enter "b". To exit, enter "q"',
+        message: 'To return to store, enter "b". To exit, enter "q"\n',
         validate: function(choice) {
           if  (choice.toLowerCase() === "q") {
             console.log("\nThank you for shopping with us!");
