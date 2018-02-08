@@ -17,7 +17,6 @@ var connection = mysql.createConnection({
 
 connection.connect(function(err) {
   if (err) throw err;
-  //console.log("connected as id " + connection.threadId + "\n");
   showItems();
 });
 
@@ -27,15 +26,14 @@ var userInput = null;
 function showItems() {
   var query = 'SELECT * FROM products';
   connection.query(query, function(err, res) {
-    console.log('\n---------------------------Products---------------------------\n');
+    console.log('\n---------------------------Product Selection---------------------------\n');
     for (var i = 0; i < res.length; i++) 
     {
       console.log('ID: ' + res[i].item_id + ' || Product: ' + res[i].product_name + ' || Department: ' + res[i].department_name + ' || Price (USD): ' + res[i].price);
     }
-    console.log('\n--------------------------------------------------------------\n');
+    console.log('\n-----------------------------------------------------------------------\n');
     buyItemPrompt()
       .then(function(input) {
-        //console.log(input);
         checkQuantity(input);
       });
   });
@@ -49,7 +47,7 @@ function buyItemPrompt() {
         {
           name: 'item_id',
           type: 'input',
-          message: 'Please enter the ID of the product you would like to purchase.',
+          message: 'Please enter the ID of the product you would like to purchase.\n',
           validate: function(product) {
             if (isNaN(product) === false) {
               return true;
@@ -60,12 +58,11 @@ function buyItemPrompt() {
         {
         name: 'stock_quantity',
         type: 'input',
-        message: 'How many units of the product would you like?',
+        message: 'How many units of the product would you like?\n',
         validate: function(quantity) {
           if (isNaN(quantity) === false) {
             return true;
             checkQuantity(userInput);
-            // updateDB();
           }
           return false;
           }
@@ -75,16 +72,9 @@ function buyItemPrompt() {
   };
 
 function checkQuantity(userInput) {
-  // console.log('values in check Quantity function');
-  // console.log(userInput);
   var item = userInput.item_id;
-  // console.log('Item ID selected');
-  // console.log(item);
   var buyerQuantity = (userInput.stock_quantity);
-  // console.log('Quantity selected by user');
-  // console.log(buyerQuantity);
   var queryStr = 'SELECT * FROM products WHERE ?';
-
 
     connection.query(queryStr, {
       item_id: item
@@ -95,39 +85,52 @@ function checkQuantity(userInput) {
 
         var itemData = data[0];
 
-        console.log('Here is item data:');
-        console.log(itemData);
-        // console.log('user input quantity:'); 
-        // console.log(buyerQuantity);
-
         // If requested quantity is less than quantity in DB show items agaim
         if (itemData.stock_quantity < buyerQuantity) {
-          console.log('The number of units you have requested is unavailable. Please select a new item or quantity');
-          showItems();
+          console.log('\nThe number of units you have requested is unavailable.\n');
+          buyOrExit();
         }
         // If requested quantity is less than or equal to the DB quantity
         else {
-          console.log('Item purchase is complete. Your total is: $' + itemData.price);
+          console.log('\nItem purchase is complete. Your total is: $' + itemData.price + '\n');
           upDateDB(item, (updatedQuantity = (itemData.stock_quantity - buyerQuantity)));
-
+          buyOrExit();
         };
 
       };
     })
   }
 
-      function upDateDB(updatedQuantity, id){
-        // console.log('data fed to Update');
-        // console.log(id);
-        // console.log(updatedQuantity);
-        connection.query('UPDATE products SET stock_quantity = "updatedQuantity" WHERE item_id = "id"'),
-        [updatedQuantity, id.item_id],
-        function (res, err) { 
-          if (err) {
-            throw err;
-          }
-          else {
-        showItems();
-        };
-      };
+function upDateDB(updatedQuantity, id){ 
+  connection.query('UPDATE products SET stock_quantity = "updatedQuantity" WHERE item_id = "id"'),
+  [updatedQuantity, id.item_id],
+  function (res, err) { 
+    if (err) {
+      throw err;
     }
+    else {
+      showItems();
+    };
+  };
+}
+
+function buyOrExit () {
+  return inquirer
+  .prompt(
+    [
+      {
+        name: 'choice',
+        type: 'input',
+        message: 'To return to store, enter "b". To exit, enter "q"',
+        validate: function(choice) {
+          if  (choice.toLowerCase() === "q") {
+            console.log("\nThank you for shopping with us!");
+            process.exit(0);
+          };
+          if (choice.toLowerCase() === "b") {
+            showItems();
+          }
+        }
+      }
+    ])
+  }
